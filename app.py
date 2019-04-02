@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -8,7 +9,8 @@ from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  # You can use any database here
+# if the environement variable not available we will use sqlite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # if object changed and not saved to DB
 # This will turn off Flask_SQLAlchemy, it does not effect SQLAlchemy library tracking
 app.secret_key = 'jose'  # Secret phrase
